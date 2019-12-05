@@ -10,11 +10,85 @@ import java.util.Map;
 public class Solution {
     public static Map<String, String> countries = new HashMap<String, String>();
 
+    static {
+        countries.put("UA", "Ukraine");
+        countries.put("RU", "Russia");
+        countries.put("CA", "Canada");
+    }
+
     public static void main(String[] args) {
+        IncomeData data = new IncomeData() {
+            @Override
+            public String getCountryCode() {
+                return "UA";
+            }
+
+            @Override
+            public String getCompany() {
+                return "JavaRush Ltd.";
+            }
+
+            @Override
+            public String getContactFirstName() {
+                return "Ivan";
+            }
+
+            @Override
+            public String getContactLastName() {
+                return "Ivanov";
+            }
+
+            @Override
+            public int getCountryPhoneCode() {
+                return 38;
+            }
+
+            @Override
+            public int getPhoneNumber() {
+                return 501234567;
+            }
+        };
+
+        IncomeDataAdapter adapter = new IncomeDataAdapter(data);
+        System.out.println(adapter.getCompanyName());
+        System.out.println(adapter.getCountryName());
+        System.out.println(adapter.getName());
+        System.out.println(adapter.getPhoneNumber());
 
     }
 
-    public static class IncomeDataAdapter {
+    public static class IncomeDataAdapter implements Customer, Contact {
+        private IncomeData data;
+
+        public IncomeDataAdapter(IncomeData data) {
+            this.data = data;
+        }
+
+        @Override
+        public String getCompanyName() {
+            return data.getCompany();
+        }
+
+        @Override
+        public String getCountryName() {
+            return countries.get(data.getCountryCode());
+        }
+
+        @Override
+        public String getName() {
+            return data.getContactLastName() + ", " + data.getContactFirstName();
+        }
+
+        @Override
+        public String getPhoneNumber() {
+            String fullStr = String.format("%010d", data.getPhoneNumber());
+            String tel = "+" + data.getCountryPhoneCode();
+            String tel2 = fullStr.substring(0,3);
+            String tel3 = fullStr.substring(3,6);
+            String tel4 = fullStr.substring(6,8);
+            String tel5 = fullStr.substring(8,10);
+            return String.format("%s(%s)%s-%s-%s", tel, tel2, tel3, tel4, tel5);
+        }
     }
 
 

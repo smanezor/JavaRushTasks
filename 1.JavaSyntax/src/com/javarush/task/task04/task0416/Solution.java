@@ -9,19 +9,21 @@ import java.util.*;
 
 public class Solution {
     public static void main(String[] args) throws Exception {
-        System.out.println("Введите число");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        double t = Double.parseDouble(reader.readLine());
+        BufferedReader br = new BufferedReader (new InputStreamReader (System.in));
+        double t = Double.parseDouble(br.readLine());
+
         int b = (int) t;
         int remain = b % 5;
+        if (remain==3) {
+            System.out.println("желтый");
+            return;
+        }
 
-        if (remain==3) System.out.println("желтый");
-
-        if (remain==4) System.out.println("красный");
-
+        if (remain==4) {
+            System.out.println("красный");
+            return;
+        }
         System.out.println("зелёный");
-
-
 
     }
 }
